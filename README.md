@@ -35,3 +35,25 @@ This app includes Google Analytics 4 for visitor tracking.
    - Visitor location and device info
    - Time spent on site
    - Real-time visitors
+   - **Slide-by-slide progression** (which of the 29 slides users view)
+   - Report opens
+
+## Viewing Slide Analytics in GA4
+
+Your app tracks custom events for each slide view. To see this data:
+
+1. Go to **Reports** → **Engagement** → **Events** in GA4
+2. Look for the `slide_view` event
+3. Click on it to see:
+   - Which slides get the most views
+   - Where users drop off
+   - Slide completion rate (slide 29 views / slide 1 views)
+4. For detailed analysis, go to **Explore** and create a custom report with:
+   - **Dimension:** `slide_number`, `slide_theme`, `slide_headline`
+   - **Metric:** `Event count`
+
+Each slide view includes:
+- `slide_number` (1-29)
+- `slide_theme` (Intro, Market, Commercial, R&D, 2026, Closing)
+- `slide_headline` (the main text on each slide)
+- `slide_type` (intro, reveal-scroll, numeric, etc.)

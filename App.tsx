@@ -260,6 +260,22 @@ const App: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Track slide views in Google Analytics
+  useEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      const currentSlide = STORY_DATA[activeSlideIndex];
+      if (currentSlide) {
+        (window as any).gtag('event', 'slide_view', {
+          slide_number: activeSlideIndex + 1,
+          slide_id: currentSlide.id,
+          slide_theme: currentSlide.theme,
+          slide_headline: currentSlide.headline,
+          slide_type: currentSlide.type
+        });
+      }
+    }
+  }, [activeSlideIndex]);
+
   const handleScroll = () => {
     if (!containerRef.current) return;
     const scrollTop = containerRef.current.scrollTop;
@@ -273,6 +289,13 @@ const App: React.FC = () => {
   const handleSlideAction = (action: string) => {
     if (action === 'OPEN_REPORT') {
       setShowReport(true);
+      // Track report opens in GA4
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'report_opened', {
+          event_category: 'engagement',
+          event_label: 'Full Report View'
+        });
+      }
     }
   };
 
