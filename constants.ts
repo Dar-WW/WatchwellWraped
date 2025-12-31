@@ -325,7 +325,7 @@ export const STORY_DATA: SlideData[] = [
     theme: 'Closing', 
     type: 'cta', 
     headline: 'Let’s continue the conversation.', 
-    subline: 'jonathan@watchwell.com', 
+    subline: 'Jonathan@watchwell.io', 
     bgColor: '#ede7e1', 
     textColor: 'black' 
   },
