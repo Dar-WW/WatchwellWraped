@@ -679,6 +679,8 @@ const Slide: React.FC<SlideProps> = ({ data, isActive, assets, onAction, isSeque
                   <span key={i} className={`block ${(!isExecutionSlide && !isPlatformSlide) ? 'whitespace-nowrap' : ''}`}>
                     {is2026Slide && line.includes('2026') ? (
                       <span className="text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] mb-4 block leading-none">{line}</span>
+                    ) : is2026Slide ? (
+                      <span className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl block">{line}</span>
                     ) : line}
                   </span>
                 ))}

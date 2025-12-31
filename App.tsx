@@ -474,26 +474,48 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Slide 30 (Dictionary Definition) - Positioned to avoid overlap on Desktop */}
-            <div className={`absolute top-[48vh] md:top-[60vh] w-full max-w-3xl px-8 flex flex-col items-center text-center transition-all duration-[1000ms] cubic-bezier(0.19, 1, 0.22, 1) ${currentData.type === 'dictionary-definition' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12 pointer-events-none'}`}>
-              <div className="border-l border-white/20 pl-6 text-left">
-                <p className="font-serif text-xl md:text-3xl text-white mb-6 leading-relaxed italic">
-                  <span className="font-bold not-italic mr-2">Kairos:</span> 
-                  In ancient Greek, Kairos represents the right moment - the point in time when precision, context, and action converge
-                </p>
-                <div className="h-[1px] w-12 bg-brand-gold opacity-50 mb-6" />
-                <p className="font-serif text-lg md:text-2xl text-white/60 leading-relaxed font-light">
-                  It is not about measuring time.<br/>
-                  It is about acting when it matters most.
-                </p>
+            {/* Slide 30 (Dictionary Definition) - Optimized for small screens */}
+            <div className={`absolute inset-x-0 top-[52vh] md:top-[55vh] bottom-[12vh] md:bottom-[15vh] w-full max-w-3xl mx-auto px-4 sm:px-8 transition-all duration-[1000ms] cubic-bezier(0.19, 1, 0.22, 1) ${currentData.type === 'dictionary-definition' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12 pointer-events-none'}`}>
+              <div 
+                className="h-full overflow-y-auto overflow-x-hidden no-scrollbar flex items-start md:items-center justify-center"
+                style={{ 
+                  overscrollBehavior: 'contain',
+                  WebkitOverflowScrolling: 'touch'
+                } as React.CSSProperties}
+                onTouchStart={(e) => e.stopPropagation()}
+                onTouchMove={(e) => e.stopPropagation()}
+              >
+                <div className="border-l border-white/20 pl-4 sm:pl-6 text-left py-2 sm:py-4">
+                  <p className="font-serif text-base sm:text-xl md:text-3xl text-white mb-4 sm:mb-6 leading-relaxed italic">
+                    <span className="font-bold not-italic mr-2">Kairos:</span> 
+                    In ancient Greek, Kairos represents the right moment - the point in time when precision, context, and action converge
+                  </p>
+                  <div className="h-[1px] w-8 sm:w-12 bg-brand-gold opacity-50 mb-4 sm:mb-6" />
+                  <p className="font-serif text-sm sm:text-lg md:text-2xl text-white/60 leading-relaxed font-light">
+                    It is not about measuring time.<br/>
+                    It is about acting when it matters most.
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Slide 31 (Kairos Vision) - Positioned to avoid overlap on Desktop */}
-            <div className={`absolute top-[48vh] md:top-[60vh] w-full max-w-5xl px-8 flex flex-col items-center text-center transition-all duration-[1000ms] cubic-bezier(0.19, 1, 0.22, 1) ${currentData.type === 'kairos-vision' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12 pointer-events-none'}`}>
-              <p className="font-serif text-lg md:text-3xl lg:text-4xl text-white leading-relaxed tracking-tight max-w-4xl">
-                "What began as a solution for watches has proven to be something larger. Our technology now sits at the intersection of security, provenance, and trust – across the entire luxury ecosystem. Kairos reflects what the company has become: infrastructure for protecting value, heritage, and authenticity at scale."
-              </p>
+            {/* Slide 31 (Kairos Vision) - Optimized for small screens */}
+            <div className={`absolute inset-x-0 top-[52vh] md:top-[55vh] bottom-[12vh] md:bottom-[15vh] w-full max-w-5xl mx-auto px-4 sm:px-8 transition-all duration-[1000ms] cubic-bezier(0.19, 1, 0.22, 1) ${currentData.type === 'kairos-vision' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12 pointer-events-none'}`}>
+              <div 
+                className="h-full overflow-y-auto overflow-x-hidden no-scrollbar flex items-start md:items-center justify-center text-center"
+                style={{ 
+                  overscrollBehavior: 'contain',
+                  WebkitOverflowScrolling: 'touch'
+                } as React.CSSProperties}
+                onTouchStart={(e) => e.stopPropagation()}
+                onTouchMove={(e) => e.stopPropagation()}
+              >
+                <div className="py-2 sm:py-4">
+                  <p className="font-serif text-base sm:text-lg md:text-3xl lg:text-4xl text-white leading-relaxed tracking-tight max-w-4xl">
+                    "What began as a solution for watches has proven to be something larger. Our technology now sits at the intersection of security, provenance, and trust – across the entire luxury ecosystem. Kairos reflects what the company has become: infrastructure for protecting value, heritage, and authenticity at scale."
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
