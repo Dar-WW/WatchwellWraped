@@ -1,6 +1,6 @@
 
 // Fix: Import React to resolve 'Cannot find namespace React' when using React.FC
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Slide from './components/Slide';
 import { STORY_DATA, THEMES } from './constants';
 
@@ -252,6 +252,13 @@ const App: React.FC = () => {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [showReport, setShowReport] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleScroll = () => {
     if (!containerRef.current) return;
@@ -266,6 +273,53 @@ const App: React.FC = () => {
   const handleSlideAction = (action: string) => {
     if (action === 'OPEN_REPORT') {
       setShowReport(true);
+    }
+  };
+
+  const handleGlobalClick = (e: React.MouseEvent) => {
+    // Desktop only: navigation on click (screens >= 1024px)
+    if (!isDesktop) return;
+    
+    // Ignore clicks if modal is open
+    if (showReport) return;
+
+    // Ignore if clicking interactive elements (buttons, links, or theme-link)
+    const target = e.target as HTMLElement;
+    if (target.closest('button') || target.closest('a') || target.closest('.theme-link')) return;
+
+    if (containerRef.current && activeSlideIndex < STORY_DATA.length - 1) {
+      const nextIndex = activeSlideIndex + 1;
+      containerRef.current.scrollTo({
+        top: nextIndex * containerRef.current.clientHeight,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    // Desktop only: navigation on right-click
+    if (!isDesktop) return;
+    if (showReport) return;
+
+    e.preventDefault(); // Disable standard context menu
+
+    if (containerRef.current && activeSlideIndex > 0) {
+      const prevIndex = activeSlideIndex - 1;
+      containerRef.current.scrollTo({
+        top: prevIndex * containerRef.current.clientHeight,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleThemeClick = (theme: string) => {
+    if (!isDesktop) return;
+    const firstSlideIndex = STORY_DATA.findIndex(s => s.theme === theme);
+    if (firstSlideIndex !== -1 && containerRef.current) {
+      containerRef.current.scrollTo({
+        top: firstSlideIndex * containerRef.current.clientHeight,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -286,7 +340,11 @@ const App: React.FC = () => {
   const showKairos = currentData?.type === 'dictionary-definition' || currentData?.type === 'kairos-vision';
 
   return (
-    <div className="relative h-screen w-full bg-black overflow-hidden selection:bg-brand-gold selection:text-black">
+    <div 
+      className="relative h-screen w-full bg-black overflow-hidden selection:bg-brand-gold selection:text-black"
+      onClick={handleGlobalClick}
+      onContextMenu={handleContextMenu}
+    >
       
       <ReportModal isOpen={showReport} onClose={() => setShowReport(false)} />
 
@@ -338,11 +396,11 @@ const App: React.FC = () => {
               <p className="font-serif italic text-lg sm:text-2xl font-normal text-center text-white">Rebranding</p>
             </div>
 
-            {/* Centered Logo Box */}
-            <div className={`absolute top-[18vh] w-full flex flex-col items-center transition-all duration-[1400ms] cubic-bezier(0.19, 1, 0.22, 1) ${
+            {/* Centered Logo Box - Optimized for Desktop & Mobile responsiveness */}
+            <div className={`absolute top-[18vh] md:top-[10vh] w-full flex flex-col items-center transition-all duration-[1400ms] cubic-bezier(0.19, 1, 0.22, 1) ${
               isRebrandingSequence ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-12 opacity-0 scale-95'
             }`}>
-              <div className="relative w-[75vw] md:w-[900px] h-[30vh] md:h-[500px]">
+              <div className="relative w-[75vw] md:w-[60vw] h-[30vh] md:h-[40vh]">
                 {/* WatchWell Logo - Shown ONLY during logo-morph */}
                 <img 
                   src={APP_ASSETS.WATCHWELL_LOGO_WHITE} 
@@ -362,7 +420,7 @@ const App: React.FC = () => {
               </div>
 
               {/* Transition Text - Appears when Watchwell is shown */}
-              <div className={`mt-20 md:mt-24 transition-all duration-[1000ms] flex flex-col items-center gap-3 ${
+              <div className={`mt-20 md:mt-6 transition-all duration-[1000ms] flex flex-col items-center gap-3 ${
                 showWatchwell 
                 ? 'opacity-100 translate-y-0 delay-[1000ms]' 
                 : 'opacity-0 translate-y-4 pointer-events-none'
@@ -372,8 +430,8 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Slide 30 (Dictionary Definition) */}
-            <div className={`absolute top-[48vh] w-full max-w-3xl px-8 flex flex-col items-center text-center transition-all duration-[1000ms] cubic-bezier(0.19, 1, 0.22, 1) ${currentData.type === 'dictionary-definition' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12 pointer-events-none'}`}>
+            {/* Slide 30 (Dictionary Definition) - Positioned to avoid overlap on Desktop */}
+            <div className={`absolute top-[48vh] md:top-[60vh] w-full max-w-3xl px-8 flex flex-col items-center text-center transition-all duration-[1000ms] cubic-bezier(0.19, 1, 0.22, 1) ${currentData.type === 'dictionary-definition' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12 pointer-events-none'}`}>
               <div className="border-l border-white/20 pl-6 text-left">
                 <p className="font-serif text-xl md:text-3xl text-white mb-6 leading-relaxed italic">
                   <span className="font-bold not-italic mr-2">Kairos:</span> 
@@ -387,8 +445,8 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Slide 31 (Kairos Vision) */}
-            <div className={`absolute top-[48vh] w-full max-w-5xl px-8 flex flex-col items-center text-center transition-all duration-[1000ms] cubic-bezier(0.19, 1, 0.22, 1) ${currentData.type === 'kairos-vision' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12 pointer-events-none'}`}>
+            {/* Slide 31 (Kairos Vision) - Positioned to avoid overlap on Desktop */}
+            <div className={`absolute top-[48vh] md:top-[60vh] w-full max-w-5xl px-8 flex flex-col items-center text-center transition-all duration-[1000ms] cubic-bezier(0.19, 1, 0.22, 1) ${currentData.type === 'kairos-vision' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12 pointer-events-none'}`}>
               <p className="font-serif text-lg md:text-3xl lg:text-4xl text-white leading-relaxed tracking-tight max-w-4xl">
                 "What began as a solution for watches has proven to be something larger. Our technology now sits at the intersection of security, provenance, and trust – across the entire luxury ecosystem. Kairos reflects what the company has become: infrastructure for protecting value, heritage, and authenticity at scale."
               </p>
@@ -498,7 +556,7 @@ const App: React.FC = () => {
 
       <footer className="fixed bottom-0 left-0 w-full z-[100] p-8 md:p-12 pointer-events-none">
         <div className="relative max-w-[1400px] mx-auto w-full flex items-end justify-center">
-          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 md:gap-x-12">
+          <div className={`flex flex-wrap justify-center gap-x-6 gap-y-2 md:gap-x-12 ${isDesktop ? 'pointer-events-auto' : ''}`}>
             {spinalThemes.map((theme) => {
               const themeGlobalIdx = THEMES.indexOf(theme);
               const isCurrent = theme === currentTheme;
@@ -512,7 +570,11 @@ const App: React.FC = () => {
                 else if (isFuture) visibilityClass = 'opacity-[0.15]';
               }
               return (
-                <div key={theme} className={`text-[8px] md:text-[10px] uppercase tracking-[0.4em] transition-all duration-700 ${visibilityClass} ${isDark ? 'text-white' : 'text-black'}`}>
+                <div 
+                  key={theme} 
+                  onClick={() => handleThemeClick(theme)}
+                  className={`theme-link text-[8px] md:text-[10px] uppercase tracking-[0.4em] transition-all duration-700 ${visibilityClass} ${isDark ? 'text-white' : 'text-black'} ${isDesktop ? 'cursor-pointer hover:opacity-100' : ''}`}
+                >
                   {theme}
                 </div>
               );
@@ -538,7 +600,9 @@ const App: React.FC = () => {
       </div>
 
       <div className={`fixed bottom-24 right-8 md:right-12 flex flex-col items-center gap-6 transition-all duration-1000 ${activeSlideNumber <= 2 ? 'opacity-40 translate-y-0' : 'opacity-0 translate-y-8 pointer-events-none'}`}>
-          <span className={`text-[9px] uppercase tracking-[0.4em] [writing-mode:vertical-rl] transition-colors duration-500 font-bold ${isDark ? 'text-white' : 'text-black'}`}>Scroll to Navigate</span>
+          <span className={`text-[9px] uppercase tracking-[0.4em] [writing-mode:vertical-rl] transition-colors duration-500 font-bold ${isDark ? 'text-white' : 'text-black'}`}>
+            {isDesktop ? "Click to move to the next screen, right click to go back" : "Scroll to Navigate"}
+          </span>
           <div className={`w-[1px] h-12 transition-colors duration-500 ${isDark ? 'bg-white/20' : 'bg-black/10'}`} />
       </div>
     </div>
