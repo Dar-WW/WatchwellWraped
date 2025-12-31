@@ -40,20 +40,31 @@ This app includes Google Analytics 4 for visitor tracking.
 
 ## Viewing Slide Analytics in GA4
 
-Your app tracks custom events for each slide view. To see this data:
+Your app tracks two custom events:
 
-1. Go to **Reports** → **Engagement** → **Events** in GA4
-2. Look for the `slide_view` event
-3. Click on it to see:
-   - Which slides get the most views
-   - Where users drop off
-   - Slide completion rate (slide 29 views / slide 1 views)
-4. For detailed analysis, go to **Explore** and create a custom report with:
-   - **Dimension:** `slide_number`, `slide_theme`, `slide_headline`
-   - **Metric:** `Event count`
+### 1. Slide Views (`slide_view`)
+**What:** Tracks which slides users reach  
+**Go to:** Reports → Engagement → Events → `slide_view`
 
-Each slide view includes:
-- `slide_number` (1-29)
-- `slide_theme` (Intro, Market, Commercial, R&D, 2026, Closing)
-- `slide_headline` (the main text on each slide)
-- `slide_type` (intro, reveal-scroll, numeric, etc.)
+### 2. Slide Duration (`slide_duration`)  
+**What:** Time spent on each slide (capped at 60 seconds to avoid outliers)  
+**Go to:** Reports → Engagement → Events → `slide_duration`
+
+### See Duration Statistics (Median/Percentiles):
+
+1. Go to **Explore** → Create new exploration
+2. Select **"Free form"**
+3. Add **Dimensions:** `slide_number`, `slide_theme`
+4. Add **Metrics:** 
+   - `Event count` (how many views)
+   - `duration_seconds` (select aggregation: **Median**, Average, or Percentile)
+5. You'll see: "Slide 1: Median 5.2 seconds, Slide 5: Median 8.7 seconds"
+
+### Key Insights You Can Track:
+- 📊 **Which slides users reach** (drop-off rate)
+- ⏱️ **Time spent per slide** (engagement)
+- 📈 **Completion rate**: Slide 29 views / Slide 1 views
+- 🔥 **Most engaging slides**: Longest median duration
+- 📉 **Quick skip slides**: Very short duration = not interesting
+
+**Note:** Durations are capped at 60 seconds to filter out users who leave tabs open.

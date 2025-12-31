@@ -253,6 +253,8 @@ const App: React.FC = () => {
   const [showReport, setShowReport] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+  const slideEntryTimeRef = useRef<number>(Date.now());
+  const previousSlideIndexRef = useRef<number>(0);
 
   useEffect(() => {
     const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
@@ -260,10 +262,25 @@ const App: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Track slide views in Google Analytics
+  // Track slide views and duration in Google Analytics
   useEffect(() => {
     if (typeof window !== 'undefined' && (window as any).gtag) {
       const currentSlide = STORY_DATA[activeSlideIndex];
+      const previousSlide = STORY_DATA[previousSlideIndexRef.current];
+      const now = Date.now();
+      const durationSeconds = (now - slideEntryTimeRef.current) / 1000;
+
+      // Track duration for the PREVIOUS slide (only if it's reasonable - cap at 60 seconds)
+      if (previousSlide && durationSeconds > 0.5 && durationSeconds < 60) {
+        (window as any).gtag('event', 'slide_duration', {
+          slide_number: previousSlideIndexRef.current + 1,
+          slide_theme: previousSlide.theme,
+          duration_seconds: Math.round(durationSeconds * 10) / 10, // Round to 1 decimal
+          slide_type: previousSlide.type
+        });
+      }
+
+      // Track view for the CURRENT slide
       if (currentSlide) {
         (window as any).gtag('event', 'slide_view', {
           slide_number: activeSlideIndex + 1,
@@ -273,6 +290,10 @@ const App: React.FC = () => {
           slide_type: currentSlide.type
         });
       }
+
+      // Update refs for next transition
+      slideEntryTimeRef.current = now;
+      previousSlideIndexRef.current = activeSlideIndex;
     }
   }, [activeSlideIndex]);
 
