@@ -48,7 +48,7 @@ export const STORY_DATA: SlideData[] = [
     },
     bgColor: '#ede7e1', 
     textColor: 'black',
-    bgImage: 'https://i.postimg.cc/6pjvfhk7/Watch-Well-old-animation.gif',
+    bgImage: '/assets/watchwell-animation.gif',
     bgImageAlt: 'WatchWell product schematic animation'
   },
   
