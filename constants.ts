@@ -20,7 +20,7 @@ export const STORY_DATA: SlideData[] = [
     subline: '2025 wrapped', 
     bgColor: '#000000', 
     textColor: 'white', 
-    bgImage: 'https://i.postimg.cc/CxDXHTgg/Background-Diamond-Outline-1080x1350-Black-(2).gif',
+    bgVideo: '/assets/bg-diamond-black.mp4',
     bgImageAlt: 'Black diamond outline background animation'
   },
   { 
@@ -29,10 +29,10 @@ export const STORY_DATA: SlideData[] = [
     type: 'reveal-scroll', 
     headline: '12 months.', 
     subline: 'From concept to execution.', 
-    bodyText: 'In October, we marked WatchWell’s first anniversary. With 2025 closing, it’s a good moment to step back, look at the progress made so far, and outline where we’re heading in 2026',
+    bodyText: 'In October, we marked WatchWell\'s first anniversary. With 2025 closing, it\'s a good moment to step back, look at the progress made so far, and outline where we\'re heading in 2026',
     bgColor: '#ede7e1', 
     textColor: 'black',
-    bgImage: 'https://i.postimg.cc/nhhWQjhY/Background-Diamond-Outline-1080x1350-Ivory-(1).gif',
+    bgVideo: '/assets/bg-diamond-ivory.mp4',
     bgImageAlt: 'Ivory diamond outline background animation'
   },
   { 
@@ -83,7 +83,7 @@ export const STORY_DATA: SlideData[] = [
     subline: 'And the strategic importance of the platform inside luxury organizations.', 
     bgColor: '#365850', 
     textColor: 'white',
-    bgImage: 'https://i.postimg.cc/zvBTwk1k/Slide10background.gif',
+    bgVideo: '/assets/bg-gradient-deep-green.mp4',
     bgImageAlt: 'Deep green diamond background'
   },
   
@@ -221,7 +221,7 @@ export const STORY_DATA: SlideData[] = [
     subline: 'Not redefining direction.', 
     bgColor: '#ede7e1', 
     textColor: 'black',
-    bgImage: 'https://i.postimg.cc/TY24hLvR/Untitled-design-(2).gif',
+    bgVideo: '/assets/bg-gradient-ivory-2026.mp4',
     bgImageAlt: '2026 Execution Background'
   },
   { 
@@ -229,11 +229,11 @@ export const STORY_DATA: SlideData[] = [
     theme: '2026', 
     type: 'vision-reality', 
     topTitle: '2026 is about scaling execution',
-    headline: 'Step by step, we’re translating the vision into reality: a security and trust standard for luxury objects, starting with watches and extending into adjacent categories - safeguarding not just items, but the heritage and integrity of the brands behind them.', 
-    subline: "So here’s what’s in store for 2026…", 
+    headline: 'Step by step, we\'re translating the vision into reality: a security and trust standard for luxury objects, starting with watches and extending into adjacent categories - safeguarding not just items, but the heritage and integrity of the brands behind them.', 
+    subline: "So here's what's in store for 2026…", 
     bgColor: '#ede7e1', 
     textColor: 'black',
-    bgImage: 'https://i.postimg.cc/TY24hLvR/Untitled-design-(2).gif',
+    bgVideo: '/assets/bg-gradient-ivory-2026.mp4',
     bgImageAlt: '2026 Vision Background',
     customData: {
       topSubline: 'Not redefining direction.'
