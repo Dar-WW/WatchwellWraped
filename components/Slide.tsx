@@ -739,7 +739,20 @@ const Slide: React.FC<SlideProps> = ({ data, isActive, assets, onAction, isSeque
   return (
     <section className="story-slide transition-colors duration-1000 ease-in-out" style={{ backgroundColor: data.bgColor }}>
       {isValidationSequence && <ValidationBackground isActive={isActive} />}
-      {data.bgImage && data.id !== 20 && (
+      {data.bgVideo && (
+        <div className={`absolute inset-0 z-0 flex items-center justify-center transition-opacity duration-1000 pointer-events-none ${isActive ? 'opacity-100' : 'opacity-0'}`}>
+          <video 
+            src={data.bgVideo} 
+            autoPlay 
+            loop 
+            muted 
+            playsInline 
+            className="w-full h-full object-cover"
+          />
+          {data.id === 3 && <div className="absolute inset-0 bg-white/60 z-[1]" />}
+        </div>
+      )}
+      {data.bgImage && data.id !== 20 && !data.bgVideo && (
         <div className={`absolute inset-0 z-0 flex items-center justify-center transition-opacity duration-1000 pointer-events-none ${isActive ? 'opacity-100' : 'opacity-0'}`}>
           <img src={data.bgImage} alt={data.bgImageAlt || "Background"} className="w-full h-full object-cover" />
           {data.id === 3 && <div className="absolute inset-0 bg-white/60 z-[1]" />}

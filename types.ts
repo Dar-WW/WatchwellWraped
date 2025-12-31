@@ -16,5 +16,6 @@ export interface SlideData {
   customData?: any;
   bgImage?: string;
   bgImageAlt?: string;
+  bgVideo?: string;
   disclaimer?: string;
 }
